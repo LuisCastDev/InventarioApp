@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "InventarioApp",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
