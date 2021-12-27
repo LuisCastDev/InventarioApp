@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Inventario App</ion-title>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card color="primary" (click)="servicios.irA('/clientes')">
+          <ion-card-header>
+            <ion-card-subtitle></ion-card-subtitle>
+            <ion-icon class="cards-icon" name="people-outline"></ion-icon>
+            <ion-card-title>Clientes</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            (90)
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+
+      <ion-col>
+        <ion-card color="success" (click)="servicios.irA('/productos')">
+          <ion-card-header>
+            <ion-card-subtitle></ion-card-subtitle>
+            <ion-icon name="pricetags-outline"></ion-icon>
+            <ion-card-title>Productos</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            (90)
+          </ion-card-content>
+        </ion-card>
+        
+      </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card color="warning" (click)="servicios.irA('/pedidos')">
+          <ion-card-header>
+            <ion-card-subtitle></ion-card-subtitle>
+            <ion-icon name="receipt-outline"></ion-icon>
+            <ion-card-title>Pedidos</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            (90)
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+
+      <ion-col>
+        <ion-card color="dark" (click)="servicios.irA('/usuarios')">
+          <ion-card-header>
+            <ion-card-subtitle></ion-card-subtitle>
+            <ion-icon name="people-circle-outline"></ion-icon>
+            <ion-card-title>Usuarios</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            (90)
+          </ion-card-content>
+        </ion-card>
+        
+      </ion-col>
+       
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
