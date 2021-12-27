@@ -5,14 +5,44 @@
     
         <ion-back-button slot="start" defaultHref="inicio" ></ion-back-button>
     
-            <ion-title>{{id== 0 ? 'Nuevo' : 'Editar'}} producto {{id== 0 ? '' : id}}</ion-title>
+            <ion-title >{{id== 0 ? 'Nuevo' : 'Editar'}} producto {{id== 0 ? '' : id}}</ion-title>
     
-     
+      <ion-buttons slot="end">
+        <ion-button (click)="Guardar()">
+
+
+          <ion-icon name="save" ></ion-icon>
+        </ion-button>
+
+      </ion-buttons>
     
     
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- List of Input Items -->
+<ion-list>
+  <ion-item>
+    <ion-label position="stacked">Codigo</ion-label>
+    <ion-input [(ngModel)]="codigo" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Stock</ion-label>
+    <ion-input [(ngModel)]="stock" type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Precio</ion-label>
+    <ion-input [(ngModel)]="precio" type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Status</ion-label>
+    <ion-toggle [(ngModel)]="status"></ion-toggle>
+  </ion-item>
+  </ion-list>
 
 </ion-content>

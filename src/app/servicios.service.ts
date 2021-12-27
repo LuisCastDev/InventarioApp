@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ export class ServiciosService {
  private URL_API: string = 'http://localhost/API/';
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private toast: ToastController
   ) { }
 
   irA(url: string){
@@ -23,7 +25,22 @@ export class ServiciosService {
       }));
 
     }
+    Producto_Consulta(_id:number){
 
+      return this.http.get(this.URL_API + 'consultar-producto/'+_id);
+    }
+    Producto_Guardar(data:any){
+
+      return this.http.post(this.URL_API + (data.id == 0 ?'crear-producto' : 'actualizar-producto/'+data.id),this.objectToFormData({
+        id: data.id,
+        codigo: data.codigo,
+        nombre: data.nombre,
+        stock: data.stock,
+        precio: data.precio,
+        activo: data.activo
+        }));
+  
+      }
     // Producto_Listado(texto){
 
     //   return this.http.post(this.URL_API + 'listar-producto',{texto});
@@ -42,6 +59,18 @@ export class ServiciosService {
         
   
       }
+    
+    async Mensaje(texto: string,tipo: string = "success"){
+      let t = await this.toast.create({
+        message : texto,
+        color: tipo,
+        duration: 3000
+
+
+
+      });
+      t.present(); 
+    }
 
 
 
