@@ -24,12 +24,18 @@
   <!-- List of Input Items -->
 <ion-list>
   <ion-item>
-    <ion-label position="stacked">Codigo</ion-label>
-    <ion-input [(ngModel)]="codigo" type="text"></ion-input>
+    <ion-label position="stacked">Cliente</ion-label>
+    <ion-select placeholder="Seleccionar" [(ngModel)]="cliente_id" [disabled]="id !=0"  okText="Seleccionar" cancelText="Cancelar">
+      <ion-select-option [value]="cliente.id" *ngFor="let cliente of clientes">{{cliente.nombre}}</ion-select-option>
+      
+    </ion-select>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Nombre</ion-label>
-    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+    <ion-label position="stacked">Vendedor</ion-label>
+    <ion-select placeholder="Seleccionar" [(ngModel)]="usuario_id" [disabled]="id !=0"  okText="Seleccionar" cancelText="Cancelar">
+      <ion-select-option [value]="usuario.id" *ngFor="let usuario of usuarios">{{usuario.nombre}}</ion-select-option>
+      
+    </ion-select>
   </ion-item>
   <ion-item>
     <ion-label position="stacked">Stock</ion-label>

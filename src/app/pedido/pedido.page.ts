@@ -14,7 +14,10 @@ export class PedidoPage implements OnInit {
   public usuario_id: number = 0;
   public fecha: any = null;
   public status: number = 0;
-  
+  public clientes: any [] =[];
+  public usuarios: any [] =[];
+
+
   constructor(public servicio: ServiciosService,
     public route: ActivatedRoute,
     public loading: LoadingController
@@ -30,33 +33,47 @@ export class PedidoPage implements OnInit {
 
 
 async  ionViewWillEnter(){
-    if (this.id > 0) {   
-    let l = await this.loading.create();
-    l.present();
+
+  this.servicio.Cliente_Listado().subscribe((data:any)=>{
+    this.clientes = data.info.items;
+    console.log('clientes===',data);
+  },((er)=>{console.log(er)}));
+  this.servicio.Usuario_Listado().subscribe((data:any)=>{
+    this.usuarios = data.info.items;
+    console.log('clientes===',data);
+  },((er)=>{console.log(er)}))
+
+
+
+
+
+//     if (this.id > 0) {   
+//     let l = await this.loading.create();
+//     l.present();
 
     
     
-    this.servicio.Pedido_Consulta(this.id).subscribe((data:any)=>{
-  if(data.info.item.id > 0){
-    this.cliente_id = data.info.item.codigo;
-    this.usuario_id = data.info.item.usuario_id;
-    this.fecha = data.info.item.fecha;
-    this.status = data.info.item.status;
+//     this.servicio.Pedido_Consulta(this.id).subscribe((data:any)=>{
+//   if(data.info.item.id > 0){
+//     this.cliente_id = data.info.item.codigo;
+//     this.usuario_id = data.info.item.usuario_id;
+//     this.fecha = data.info.item.fecha;
+//     this.status = data.info.item.status;
     
     
 
-  }
-  else{ 
-   this.servicio.Mensaje('el pedido que intenta modificar no existe','danger');
-    this.servicio.irA('/pedidos');
-  }
- l.dismiss();
-},
-    ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger');
-    this.servicio.irA('/pedidos');
-    l.dismiss();
-  })
-  }
+//   }
+//   else{ 
+//    this.servicio.Mensaje('el pedido que intenta modificar no existe','danger');
+//     this.servicio.irA('/pedidos');
+//   }
+//  l.dismiss();
+// },
+//     ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger');
+//     this.servicio.irA('/pedidos');
+//     l.dismiss();
+//   })
+//   }
 }
 
   changeStatus(){
