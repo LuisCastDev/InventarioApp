@@ -13,7 +13,7 @@ export class PedidoPage implements OnInit {
   public cliente_id: number = 0;
   public usuario_id: number = 0;
   public fecha: any = null;
-  public status: number = 0;
+  public status: string = "0";
   public clientes: any [] =[];
   public usuarios: any [] =[];
 
@@ -47,33 +47,33 @@ async  ionViewWillEnter(){
 
 
 
-//     if (this.id > 0) {   
-//     let l = await this.loading.create();
-//     l.present();
+    if (this.id > 0) {   
+    let l = await this.loading.create();
+    l.present();
 
     
     
-//     this.servicio.Pedido_Consulta(this.id).subscribe((data:any)=>{
-//   if(data.info.item.id > 0){
-//     this.cliente_id = data.info.item.codigo;
-//     this.usuario_id = data.info.item.usuario_id;
-//     this.fecha = data.info.item.fecha;
-//     this.status = data.info.item.status;
+    this.servicio.Pedido_Consulta(this.id).subscribe((data:any)=>{
+  if(data.info.item.id > 0){
+    this.cliente_id = data.info.item.cliente_id;
+    this.usuario_id = data.info.item.usuario_id;
+    this.fecha = data.info.item.fecha;
+    this.status = data.info.item.status;
     
     
 
-//   }
-//   else{ 
-//    this.servicio.Mensaje('el pedido que intenta modificar no existe','danger');
-//     this.servicio.irA('/pedidos');
-//   }
-//  l.dismiss();
-// },
-//     ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger');
-//     this.servicio.irA('/pedidos');
-//     l.dismiss();
-//   })
-//   }
+  }
+  else{ 
+   this.servicio.Mensaje('el pedido que intenta modificar no existe','danger');
+    this.servicio.irA('/pedidos');
+  }
+ l.dismiss();
+},
+    ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger');
+    this.servicio.irA('/pedidos');
+    l.dismiss();
+  })
+  }
 }
 
   changeStatus(){
@@ -100,15 +100,14 @@ async  ionViewWillEnter(){
     {this.servicio.Mensaje('Debe ingresar el vendedor','warning');}
     else if (this.fecha == null)
     {this.servicio.Mensaje('Debe ingresar la fecha','warning');}
-    else if (this.status == 0)
-    {this.servicio.Mensaje('Debe ingresar el precio','warning');}
+   
     else{
       this.servicio.Pedido_Guardar({
         id: this.id,
         cliente_id: this.cliente_id,
         usuario_id : this.usuario_id,
         fecha : this.fecha,
-        status : this.status ? 1 : 0        
+        status : this.status     
       }).subscribe((data:any)=>{
         if(data.mensaje == "el registro no se pudo modificar porque hay otro pedido con el mismo nombre o codigo"){
 
@@ -121,7 +120,7 @@ async  ionViewWillEnter(){
       }
       console.log(data.info.id)
         if(data.info.id > 0){
-      this.servicio.irA('/pedidos')
+      this.servicio.irA('/pedido/' + data.info.id)
 
 
     }},

@@ -5,7 +5,7 @@
     
         <ion-back-button slot="start" defaultHref="inicio" ></ion-back-button>
     
-            <ion-title >{{id== 0 ? 'Nuevo' : 'Editar'}} pedido {{id== 0 ? '' : id}}</ion-title>
+            <ion-title >{{id== 0 ? 'Nuevo Pedido' : 'Agregar producto'}}  </ion-title>
     
       <ion-buttons slot="end">
         <ion-button (click)="Guardar()">
@@ -38,41 +38,18 @@
     </ion-select>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Stock</ion-label>
-    <ion-input [(ngModel)]="stock" type="number"></ion-input>
+    <ion-label position="stacked">Fecha</ion-label>
+    <ion-datetime [(ngModel)]="fecha" displayFormat="DD/MM/YYYY" placeholder="Seleccionar fecha" cancelText="Cancelar" doneText="Seleccionar"></ion-datetime>
   </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Precio</ion-label>
-    <ion-input [(ngModel)]="precio" type="number"></ion-input>
+  <ion-item *ngIf="id != 0">
+    <ion-label position="stacked">Estado</ion-label>
+    <ion-select placeholder="Seleccionar" [(ngModel)]="status"  okText="Seleccionar" cancelText="Cancelar">
+      <ion-select-option value="0" >Creado</ion-select-option>
+      <ion-select-option value="1" >Procesado</ion-select-option>
+      <ion-select-option value="1" >Finalizado</ion-select-option>
+    </ion-select>
   </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Activo</ion-label>
-    <ion-toggle [(ngModel)]="status" (ionChange)="changeStatus()"></ion-toggle>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Identificacion</ion-label>
-    <ion-input [(ngModel)]="identificacion" type="text" disabled="true"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Nombre</ion-label>
-    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Email</ion-label>
-    <ion-input [(ngModel)]="email" type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Direccion</ion-label>
-    <ion-input [(ngModel)]="direccion" type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Pais</ion-label>
-    <ion-input [(ngModel)]="pais" type="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Ciudad</ion-label>
-    <ion-input [(ngModel)]="ciudad" type="text"></ion-input>
-  </ion-item>
+ 
   </ion-list>
 
 </ion-content>
