@@ -40,11 +40,12 @@ export class ProductosPage implements OnInit {
       this.productos = res.info.items;
       this.total = res.info.total;
      l.dismiss();
-      
+      console.log(res)  
     },(er: any)=>{
       l.dismiss();
       console.log(er)
     })
+    
   }
 
 

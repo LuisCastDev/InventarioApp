@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { ServiciosService } from '../servicios.service';
 
 @Component({
@@ -14,17 +15,30 @@ export class ProductoPage implements OnInit {
   public nombre: string = '';
   public stock: number = 0;
   public precio: number = 0;
-  public status: boolean = true;
+  public status: number = 0;
   
   constructor(public servicio: ServiciosService,
-    public route: ActivatedRoute) {
+    public route: ActivatedRoute,
+    public loading: LoadingController
+    ) {
       this.id = this.route.snapshot.params.productoId ? this.route.snapshot.params.productoId :0;
      }
 
   ngOnInit() {
   
   }
-  ionViewWillEnter(){this.servicio.Producto_Consulta(this.id).subscribe((data:any)=>{
+
+  
+
+
+async  ionViewWillEnter(){
+    if (this.id > 0) {   
+    let l = await this.loading.create();
+    l.present();
+
+    
+    
+    this.servicio.Producto_Consulta(this.id).subscribe((data:any)=>{
   if(data.info.item.id > 0){
     this.codigo = data.info.item.codigo;
     this.nombre = data.info.item.nombre;
@@ -32,18 +46,36 @@ export class ProductoPage implements OnInit {
     this.precio = data.info.item.precio;
     this.status = data.info.item.status;
     
-
+    
 
   }
   else{ 
-    this.servicio.Mensaje('el producto que intenta modificar no existe','danger');
+   this.servicio.Mensaje('el producto que intenta modificar no existe','danger');
     this.servicio.irA('/productos');
   }
-
+ l.dismiss();
 },
     ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger');
- //   this.servicio.irA('/productos');
+    this.servicio.irA('/productos');
+    l.dismiss();
   })
+  }
+}
+
+  changeStatus(){
+
+    // if (this.status == 0) {
+    //   this.status = 1;
+      
+    // }
+
+    // else if (this.status ==1) {
+    //   this.status = 0;
+
+    // } 
+    
+    console.log(this.status)
+
   }
 
   Guardar(){
@@ -63,8 +95,7 @@ export class ProductoPage implements OnInit {
         nombre : this.nombre,
         stock : this.stock,
         precio : this.precio,
-        status : this.status ? 1 : 0,
-        
+        status : this.status ? 1 : 0        
       }).subscribe((data:any)=>{
         if(data.mensaje == "el registro no se pudo modificar porque hay otro producto con el mismo nombre o codigo"){
 
@@ -81,7 +112,7 @@ export class ProductoPage implements OnInit {
 
 
     }},
-      (err)=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger')})
+      ()=>{this.servicio.Mensaje('no se pudo realizar la peticion','danger')})
     }
  
   }

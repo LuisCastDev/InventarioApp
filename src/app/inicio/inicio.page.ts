@@ -8,22 +8,30 @@ import { ServiciosService } from '../servicios.service';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-  productosTotal : any;
+  productosTotal : any =[];
   clientesTotal: any;
   producto: string = '';
-
+  usuariosTotal : any =[];
 
 
   constructor(
     public servicios: ServiciosService,
     public toast: ToastController,
     public loading: LoadingController
-  ) {   this.setCounter(); }
+  ) {
+    
+    this.setCounter(); 
+    this.getCliente();
+   // this.getProductos();
+   this.getUsuarios();
+  }
 
   ngOnInit() {
   }
   ionViewWillEnter(){
-    this.setCounter();
+    this.setCounter(); 
+    this.getCliente();
+    this.getUsuarios();
   }
 
  async setCounter(){
@@ -41,4 +49,36 @@ export class InicioPage implements OnInit {
 
 
   }
+
+  async getCliente(){
+    let l = await this.loading.create();
+    l.present();
+
+    this.servicios.Cliente_Listado(this.producto)
+    .subscribe((res: any)=>{
+      this.clientesTotal = res.info.total;
+     l.dismiss();
+      
+    },(er: any)=>{
+      l.dismiss();
+      console.log(er)
+    })
+    console.log(this.clientesTotal);
+  }
+  async getUsuarios(){
+    let l = await this.loading.create();
+    l.present();
+
+    this.servicios.Usuario_Listado(this.producto)
+    .subscribe((res: any)=>{
+      this.usuariosTotal = res.info.totalActivo;
+     l.dismiss();
+      
+    },(er: any)=>{
+      l.dismiss();
+      console.log(er)
+    })
+    console.log(this.usuariosTotal);
+  }
+
 }

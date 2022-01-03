@@ -1,24 +1,55 @@
 <ion-header>
   
   <ion-toolbar color="warning">
-    <ion-row>
-      <ion-col>
-        <ion-back-button defaultHref="inicio" ></ion-back-button>
-      </ion-col>
-      <ion-col>
-        <ion-title>Pedidos</ion-title>
-      </ion-col>
-      <ion-col>
-        <ion-icon name="add-circle-outline"></ion-icon>
-      </ion-col>
+    
+    
+        <ion-back-button slot="start" defaultHref="inicio" ></ion-back-button>
+    
+            <ion-title>Pedidos</ion-title>
+    
+   
+        <ion-icon name="add-circle-outline" slot="end" (click)="servicio.irA('/pedido/0')"></ion-icon>
+        <ion-icon name="refresh" slot="end" (click)="getPedidos()"></ion-icon>
 
     
     
-    </ion-row>
+    
     
   </ion-toolbar>
 
 </ion-header>
 <ion-content>
+
+  <ion-searchbar [(ngModel)]="texto" color="warning" debounce="800" (ionChange)="getPedidos()" placeholder="buscar pedido"></ion-searchbar>
+
+  <ion-list>
+
+    <ion-list-header>
+        Pedidos  registrados
+    </ion-list-header>
+    <ion-item-sliding  *ngFor="let pedido of pedidos" #ionItemSliding>
+     <ion-item >
+        <ion-label text-wrap>
+            <h2>{{pedido.cliente}}</h2>
+            <small>Cant. Productos: {{pedido.n_productos}}</small>
+        <br/>
+            <small>Vendido por: {{pedido.vendedor}} </small>
+            <p>Total:{{pedido.total|number}}</p>
+           
+        </ion-label>
+        <ion-badge color="primary">{{pedido.id}}</ion-badge>
+      </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="warning" (click)="updatePedido(pedido, ionItemSliding)" >Editar</ion-item-option>
+          <ion-item-option color="danger" (click)="deletePedido(pedido, ionItemSliding)" >Eliminar</ion-item-option>
+        </ion-item-options>
+    
+    </ion-item-sliding>   
+        
+
+   
+</ion-list>
+
+  
 
 </ion-content>

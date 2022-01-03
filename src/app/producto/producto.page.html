@@ -40,8 +40,8 @@
     <ion-input [(ngModel)]="precio" type="number"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="stacked">Status</ion-label>
-    <ion-toggle [(ngModel)]="status"></ion-toggle>
+    <ion-label position="stacked">Activo</ion-label>
+    <ion-toggle [(ngModel)]="status" (ionChange)="changeStatus()"></ion-toggle>
   </ion-item>
   </ion-list>
 

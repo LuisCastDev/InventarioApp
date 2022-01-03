@@ -1,9 +1,72 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>pedido</ion-title>
+  
+  <ion-toolbar color="warning">
+    
+    
+        <ion-back-button slot="start" defaultHref="inicio" ></ion-back-button>
+    
+            <ion-title >{{id== 0 ? 'Nuevo' : 'Editar'}} pedido {{id== 0 ? '' : id}}</ion-title>
+    
+      <ion-buttons slot="end">
+        <ion-button (click)="Guardar()">
+
+
+          <ion-icon name="save" ></ion-icon>
+        </ion-button>
+
+      </ion-buttons>
+    
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- List of Input Items -->
+<ion-list>
+  <ion-item>
+    <ion-label position="stacked">Codigo</ion-label>
+    <ion-input [(ngModel)]="codigo" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Stock</ion-label>
+    <ion-input [(ngModel)]="stock" type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Precio</ion-label>
+    <ion-input [(ngModel)]="precio" type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Activo</ion-label>
+    <ion-toggle [(ngModel)]="status" (ionChange)="changeStatus()"></ion-toggle>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Identificacion</ion-label>
+    <ion-input [(ngModel)]="identificacion" type="text" disabled="true"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="nombre" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Email</ion-label>
+    <ion-input [(ngModel)]="email" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Direccion</ion-label>
+    <ion-input [(ngModel)]="direccion" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Pais</ion-label>
+    <ion-input [(ngModel)]="pais" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Ciudad</ion-label>
+    <ion-input [(ngModel)]="ciudad" type="text"></ion-input>
+  </ion-item>
+  </ion-list>
 
 </ion-content>
