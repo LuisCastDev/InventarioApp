@@ -44,11 +44,39 @@
   <ion-item *ngIf="id != 0">
     <ion-label position="stacked">Estado</ion-label>
     <ion-select placeholder="Seleccionar" [(ngModel)]="status"  okText="Seleccionar" cancelText="Cancelar">
-      <ion-select-option value="0" >Creado</ion-select-option>
-      <ion-select-option value="1" >Procesado</ion-select-option>
-      <ion-select-option value="1" >Finalizado</ion-select-option>
+      <ion-select-option [value]="0" >Creado</ion-select-option>
+      <ion-select-option [value]="1" >Procesado</ion-select-option>
+      <ion-select-option [value]="2" >Finalizado</ion-select-option>
     </ion-select>
   </ion-item>
+  <ion-item *ngIf="id != 0">
+    <ion-label position="stacked">Productos</ion-label>
+    <ion-select placeholder="Seleccionar" [(ngModel)]="_producto"  okText="Seleccionar" cancelText="Cancelar" (ionChange)="prodSelect()">
+      <ion-select-option [value]="producto" *ngFor="let producto of productos" >{{producto.nombre}}</ion-select-option>
+      
+    </ion-select>
+  </ion-item>
+  <ion-list-header color="danger" >
+  <small>Detalles producto</small>  
+  </ion-list-header>
+  <ion-item-sliding  *ngFor="let _prod of productos_listado" #ionItemSliding>
+  <ion-item >
+    <ion-label text-wrap>
+      <h3>{{_prod.nombre}}</h3>
+      <p>Precio: ${{_prod.precio|number}}</p>
+    </ion-label>
+    <ion-input slot="end" [(ngModel)]="_prod.cantidad" (ionChange)="modProd(_prod)" type="number"></ion-input>
+    
+  </ion-item>
+  <ion-item-options slot="end">
+  <ion-item-option color="danger" (click)="delProd(_prod, ionItemSliding)" >
+    <ion-icon name="trash-bin"></ion-icon>
+  </ion-item-option>
+</ion-item-options>
+</ion-item-sliding>
+  <ion-list-header color="success" >
+    <h3><b>Total:</b> ${{CalcularTotal()|number}}</h3>
+  </ion-list-header>
  
   </ion-list>
 

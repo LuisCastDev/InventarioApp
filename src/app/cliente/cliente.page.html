@@ -25,7 +25,7 @@
 <ion-list>
   <ion-item>
     <ion-label position="stacked">Identificacion</ion-label>
-    <ion-input [(ngModel)]="identificacion" type="text" disabled="true"></ion-input>
+    <ion-input [(ngModel)]="identificacion" type="text" [disabled]="id_check"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="stacked">Nombre</ion-label>

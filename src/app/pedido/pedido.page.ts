@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, IonItemSliding, LoadingController } from '@ionic/angular';
+import { timeStamp } from 'console';
 import { ServiciosService } from '../servicios.service';
 @Component({
   selector: 'app-pedido',
@@ -16,11 +17,16 @@ export class PedidoPage implements OnInit {
   public status: string = "0";
   public clientes: any [] =[];
   public usuarios: any [] =[];
-
+  
+  public productos: any [] =[];
+  public productos_listado: any [] =[];
+  
+  public _producto: any = null;
 
   constructor(public servicio: ServiciosService,
     public route: ActivatedRoute,
-    public loading: LoadingController
+    public loading: LoadingController,
+    public alert: AlertController
     ) {
       this.id = this.route.snapshot.params.pedidoId ? this.route.snapshot.params.pedidoId :0;
      }
@@ -28,26 +34,7 @@ export class PedidoPage implements OnInit {
   ngOnInit() {
   
   }
-
-  
-
-
-async  ionViewWillEnter(){
-
-  this.servicio.Cliente_Listado().subscribe((data:any)=>{
-    this.clientes = data.info.items;
-    console.log('clientes===',data);
-  },((er)=>{console.log(er)}));
-  this.servicio.Usuario_Listado().subscribe((data:any)=>{
-    this.usuarios = data.info.items;
-    console.log('clientes===',data);
-  },((er)=>{console.log(er)}))
-
-
-
-
-
-    if (this.id > 0) {   
+ async Cargar_Informacion(){
     let l = await this.loading.create();
     l.present();
 
@@ -59,8 +46,8 @@ async  ionViewWillEnter(){
     this.usuario_id = data.info.item.usuario_id;
     this.fecha = data.info.item.fecha;
     this.status = data.info.item.status;
-    
-    
+    this.productos_listado = data.info.item.items;
+    console.log("carga",data)
 
   }
   else{ 
@@ -74,6 +61,126 @@ async  ionViewWillEnter(){
     l.dismiss();
   })
   }
+
+async prodSelect(){
+  let l = await this.loading.create();
+  l.present();
+this._producto.cantidad = 1;
+  this.servicio.Pedido_Producto_Guardar({
+    pedido_id: this.id,
+    producto_id: this._producto.id,
+    cantidad: this._producto.cantidad,
+    precio: this._producto.precio
+  }).subscribe(()=>{
+    l.dismiss();
+    this.Cargar_Informacion();
+
+  },()=>{
+    l.dismiss();
+  })
+//   this.productos_listado.push(this._producto);
+//   this._producto = null;
+//   console.log(this.productos_listado)
+ }
+
+CalcularTotal(): number{
+let total : number = 0 ;
+for(let prod of this.productos_listado){
+  total += prod.cantidad * prod.precio;
+}
+return total;
+}
+
+async modProd(producto : any){
+  let l = await this.loading.create();
+  l.present();
+ 
+  this.servicio.Pedido_Producto_Guardar({
+    pedido_id: this.id,
+    producto_id: producto.producto_id,
+    cantidad: producto.cantidad,
+    precio: producto.precio
+  }).subscribe(()=>{
+    l.dismiss();
+  //  this.Cargar_Informacion();
+
+  },()=>{
+    l.dismiss();
+  })
+
+}
+
+async delProd(producto:any, ionItemSliding : IonItemSliding)
+{
+
+  ionItemSliding.close();
+    let alert = await this.alert.create({
+      header: 'Confirmacion',
+      message: 'Esta seguro que desea eliminar?',
+       buttons:[
+        {
+          text: 'Si',
+         handler: async () => {
+            let l = await this.loading.create();
+            l.present();
+           
+            this.servicio.Pedido_Producto_borrar({
+              pedido_id: this.id,
+              item_id: producto.id,
+             
+            }).subscribe(()=>{
+              l.dismiss();
+              this.Cargar_Informacion();
+            //  this.Cargar_Informacion();
+          
+            },()=>{
+              l.dismiss();
+            })
+          }
+
+        },
+
+        {
+          text: 'No',
+          handler: () => {}
+
+        }
+
+
+      ]
+
+
+
+    });
+    alert.present();
+
+ 
+
+}
+
+
+async  ionViewWillEnter(){
+
+  this.servicio.Cliente_Listado().subscribe((data:any)=>{
+    this.clientes = data.info.items;
+    console.log('clientes===',data);
+  },((er)=>{console.log(er)}));
+  this.servicio.Usuario_Listado().subscribe((data:any)=>{
+    this.usuarios = data.info.items;
+    console.log('Vendedores===',data);
+  },((er)=>{console.log(er)}))
+
+  this.servicio.Producto_Listado().subscribe((data:any)=>{
+    this.productos = data.info.items;
+  })
+
+
+
+
+    if (this.id > 0) {
+      this.Cargar_Informacion();
+     }
+    
 }
 
   changeStatus(){
@@ -109,15 +216,9 @@ async  ionViewWillEnter(){
         fecha : this.fecha,
         status : this.status     
       }).subscribe((data:any)=>{
-        if(data.mensaje == "el registro no se pudo modificar porque hay otro pedido con el mismo nombre o codigo"){
-
-          this.servicio.Mensaje(data.mensaje , data.info.id == 0 ?'danger' : 'warning');  
-
-        
-        }
-        else{
+       
         this.servicio.Mensaje(data.mensaje , data.info.id == 0 ?'danger' : 'success');
-      }
+      
       console.log(data.info.id)
         if(data.info.id > 0){
       this.servicio.irA('/pedido/' + data.info.id)

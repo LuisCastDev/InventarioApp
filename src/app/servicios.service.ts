@@ -57,13 +57,34 @@ export class ServiciosService {
       }));
 
     }
+    Pedido_Producto_Guardar(data:any){
+
+      return this.http.post(this.URL_API + 'pedido/agregar-producto/' +data.pedido_id,this.objectToFormData({
+        id: data.id,
+        pedido_id: data.pedido_id,
+        producto_id: data.producto_id,
+        cantidad: data.cantidad,
+        precio: data.precio,
+                }));
+  
+      }
+      Pedido_Producto_borrar(data:any){
+
+        return this.http.post(this.URL_API + 'pedido/borrar-producto/' +data.pedido_id,this.objectToFormData({
+          
+          pedido_id: data.pedido_id,
+          item_id: data.item_id
+                  }));
+    
+        }
+
     Pedido_Guardar(data:any){
 
       return this.http.post(this.URL_API + (data.id == 0 ?'crear-pedido' : 'actualizar-pedido/'+data.id),this.objectToFormData({
         id: data.id,
         cliente_id: data.cliente_id,
-        fecha: data.fecha,
         usuario_id: data.usuario_id,
+        fecha: data.fecha,
         status: data.status
         }));
   
@@ -72,9 +93,9 @@ export class ServiciosService {
 
       return this.http.get(this.URL_API + 'consultar-pedido/'+_id);
     }
-    Pedido_Eliminar(producto_id){
+    Pedido_Eliminar(pedido_id){
 
-      return this.http.delete(this.URL_API + 'eliminar-pedido/'+producto_id) 
+      return this.http.delete(this.URL_API + 'eliminar-pedido/'+pedido_id) 
         
   
       }

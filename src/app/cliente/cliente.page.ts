@@ -19,7 +19,7 @@ export class ClientePage implements OnInit {
   public pais: string = '';
   public ciudad: string = '';
   public telefono: string='';
-
+  public id_check: boolean= false;
   
   constructor(public servicio: ServiciosService,
     public route: ActivatedRoute,
@@ -51,7 +51,7 @@ async  ionViewWillEnter(){
     this.pais = data.info.item.pais;
     this.ciudad = data.info.item.ciudad;
     this.telefono = data.info.item.telefono;
-    
+    this.id_check = true;
     
     console.log('cliente',data);
   }
